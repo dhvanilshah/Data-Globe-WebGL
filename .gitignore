@@ -1,0 +1,11 @@
+#Environemnt Variables
+.env
+
+#Generated Files
+.DS_Store
+
+#Build Files
+build/node_modules
+
+#Node Modules 
+node_modules/
