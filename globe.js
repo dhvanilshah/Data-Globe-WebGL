@@ -21,6 +21,7 @@
   }
 
   var data = getUrlParam("data", "none");
+  var sky = getUrlParam("sky", "none");
   console.log(data);
 
   ///////////////////////////////////////////////////////////////////////////
@@ -465,43 +466,10 @@
     lightdir = vec3.createFrom(lightdest[0], lightdest[1], lightdest[2]);
     vec3.normalize(lightdir);
 
-    //Render skybox
-    //var skyModel = mat4.create();
-    //mat4.identity(skyModel);
-    //var skyMV = mat4.create();
-    //mat4.multiply(view, skyModel, skyMV);
-
-    //mat4.scale(skyModel, vec3.create([50.0, 50.0, 50.0]));
-    //mat4.multiply(view, skyModel, skyMV);
-
-    //invTrans = mat4.create();
-    //mat4.inverse(mv, invTrans);
-    //mat4.transpose(invTrans);
-
-    //gl.useProgram(skyboxProgram);
-    //gl.enableVertexAttribArray(skyboxPosLocation);
-
-    //gl.bindBuffer(gl.ARRAY_BUFFER, cubePositionBuffer);
-    //gl.vertexAttribPointer(skyboxPosLocation, cubePositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
-    //gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeIndexBuffer);
-
-    //gl.uniformMatrix4fv(u_skyboxModelLocation, false, skyModel);
-    //gl.uniformMatrix4fv(u_skyboxViewLocation, false, view);
-    //gl.uniformMatrix4fv(u_skyboxPerspLocation, false, persp);
-    ////gl.uniformMatrix4fv(u_skyboxInvTransLocation, false, invTrans);
-
-    //gl.activeTexture(gl.TEXTURE0);
-    //gl.bindTexture(gl.TEXTURE_CUBE_MAP, skyboxTex);
-    //gl.uniform1i(u_skyboxLocation[0], 0);
-
-    //gl.drawElements(gl.TRIANGLES, cubeIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
-
-    //gl.disableVertexAttribArray(skyboxPosLocation);
-
     ///////////////////////////////////////////////////////////////////////////
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    ///////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////
     // Render the earth
     gl.useProgram(program);
     gl.enableVertexAttribArray(positionLocation);
@@ -556,8 +524,8 @@
     gl.disableVertexAttribArray(positionLocation);
     gl.disableVertexAttribArray(normalLocation);
     gl.disableVertexAttribArray(texCoordLocation);
+
     //Render skybox
-    //scale the box first
     mat4.scale(model, vec3.create([50.0, 50.0, 50.0]));
     mat4.multiply(view, model, mv);
 
@@ -583,7 +551,6 @@
     gl.uniformMatrix4fv(u_skyboxModelLocation, false, model);
     gl.uniformMatrix4fv(u_skyboxViewLocation, false, view);
     gl.uniformMatrix4fv(u_skyboxPerspLocation, false, persp);
-    //gl.uniformMatrix4fv(u_skyInvTransLocation, false, invTrans);
 
     gl.activeTexture(gl.TEXTURE0);
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, skyboxTex);
@@ -618,8 +585,6 @@
     texture.image = new Image();
     texture.image.onload = function() {
       initLoadedTexture(texture);
-
-      // Animate once textures load.
       if (++textureCount === 6) {
         animate();
       }
@@ -645,6 +610,7 @@
     "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/earthtrans.png"
   );
 
+  //   select what you want to display
   switch (data) {
     case "lightpollution":
       initializeTexture(
@@ -703,31 +669,32 @@
     }
   }
 
+  //   select between no skybox and crappy skybox
   switch (sky) {
     case "galaxy":
       skyboxFaces[0] = [
         gl.TEXTURE_CUBE_MAP_POSITIVE_X,
-        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/GalaxyLf.png"
+        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/Galaxy.png"
       ];
       skyboxFaces[1] = [
         gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/GalaxyLf.png"
+        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/Galaxy.png"
       ];
       skyboxFaces[2] = [
         gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/GalaxyLf.png"
+        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/Galaxy.png"
       ];
       skyboxFaces[3] = [
         gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/GalaxyLf.png"
+        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/Galaxy.png"
       ];
       skyboxFaces[4] = [
         gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/GalaxyLf.png"
+        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/Galaxy.png"
       ];
       skyboxFaces[5] = [
         gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/GalaxyLf.png"
+        "https://raw.githubusercontent.com/dhvanilshah/Data-Globe-WebGL/master/images/Galaxy.png"
       ];
       break;
 

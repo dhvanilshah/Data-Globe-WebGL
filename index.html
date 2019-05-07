@@ -149,12 +149,13 @@
 
         vec3 dayColor = texture2D(u_DayDiffuse, v_Texcoord).rgb;
         vec3 nightColor = texture2D(u_Night, v_Texcoord).rgb;
+
         //apply gamma correction to nighttime texture
         nightColor = pow(nightColor,vec3(gammaCorrect));
         float blendCoef = clamp(dot(u_CameraSpaceDirLight, normal),0.0, 1.0);
         dayColor = ((0.6 * bumpDiffuse) + (0.4 * specular)) * dayColor;
         
-    //dawn and dusk
+        //dawn and dusk blend -- done with help from UPenn Tutorial
         float vdl = abs(dot(u_CameraSpaceDirLight, normal));
         float dawn = clamp( 0.1 + vdl, 0.0, 1.0);
       
@@ -175,12 +176,6 @@
         //blend dayColor and nightColor
         vec3 color = mix(nightColor, dayColor, blendCoef);
         
-        //debug
-        //color = (waterNormalEC + vec3(1.0)) * 0.5;
-     //color = (bumpNormal + vec3(1.0)) /2.0;
-         //color = texture2D(u_waterSpec, v_Texcoord*10.0).rgb * specCoef;
-        //rim mixing
-        //color = mix(color, rimColor, rim);
         gl_FragColor = vec4(color, 1.0);
        
     }
@@ -203,7 +198,6 @@
 
 <script src ="gl-matrix.js" type ="text/javascript"></script>
 <script src ="webGLUtility.js" type ="text/javascript"></script>
-<!-- <script src ="texture.js" type ="text/javascript"></script> -->
 <script src ="globe.js" type ="text/javascript"></script>
 </body>
 
