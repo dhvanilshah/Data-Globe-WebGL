@@ -32,14 +32,11 @@
 
     return [x, y, z];
   }
-  var FPS = 0;
-  var ticks = 0;
-  var lastFPS = 0;
 
   var NUM_WIDTH_PTS = 64;
   var NUM_HEIGHT_PTS = 64;
 
-  var message = document.getElementById("message");
+  var message = null;
   var canvas = document.getElementById("canvas");
   var gl = createWebGLContext(canvas, message);
   if (!gl) {
@@ -441,8 +438,6 @@
   document.onmousemove = handleMouseMove;
 
   function animate() {
-    ///////////////////////////////////////////////////////////////////////////
-    // Update
     var model = mat4.create();
     mat4.identity(model);
     mat4.rotate(model, (23.4 / 180) * Math.PI, [0.0, 0.0, 1.0]);
@@ -569,13 +564,6 @@
     time += 0.001;
     gl.uniform1f(u_timeLocation, time);
     window.requestAnimFrame(animate);
-    var now = Date.now();
-    if (now - lastFPS >= 1000) {
-      lastFPS = now;
-      FPS = ticks;
-      ticks = 0;
-      document.getElementById("FPS").innerHTML = "FPS=" + FPS;
-    }
     ticks++;
   }
 
